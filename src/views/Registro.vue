@@ -98,47 +98,44 @@ import { storage } from 'firebase';
     //     }
     // };
 
-
     uploadImage(event: any){
       const file = event.target.files[0];
       this.userPhoto = file;
       console.log(event.target.files[0]);
     }
 
-
-    async createUser(e:any){
+     async createUser(e:any){
         e.preventDefault();
         console.log(this.getUser());
 
 
         if (this.userPhoto != null){
-              const storageRef = fb.storage().ref('images/productos/3/img-4');
 
+              const storageRef = fb.storage().ref('images/productos/3/img-8');
               const uploadTask = storageRef.put(this.userPhoto);
 
-              this.imageUrl = await uploadTask.on('state_changed', 
-              function(snapshot: any){
-                console.log(snapshot.ref.getDownloadURL())
-              }, 
-              function(error: any) {
-                // Handle unsuccessful uploads
-              }, 
-              function() {
+              await uploadTask.on('state_changed', snapshot =>{
+                console.log(snapshot)
+              }, error =>{
+                console.log(error)
+              }, ()=> {
                 // Handle successful uploads on complete
                 // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-                  console.log('File available at', downloadURL);
+                uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+                  this.imageUrl = downloadURL;
+                  console.log('File available at', this.imageUrl);
+                  
                 });
               });
 
         }
 
-        this.$store.dispatch("users/create", this.getUser()).then((response:any) =>{
+        /*this.$store.dispatch("users/create", this.getUser()).then((response:any) =>{
           
             console.log(response);
             alert('Usuario creado Satisfactoriamente');
             localStorage.setItem("token", response.data.token)
-        });
+        });*/
     }
 
     getUser(){
