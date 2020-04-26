@@ -75,10 +75,6 @@ import { storage } from 'firebase';
   @Component
   export default class Registro extends Vue{
     
-
-    data(){
-      imageUrl: '',
-    }
     userFirstName = '';
     userLastName = '';
     userEmail = '';
