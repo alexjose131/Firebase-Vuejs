@@ -56,6 +56,7 @@
                 type="file"
                 @change="uploadImage"
                 required
+                accept="img/*"
                 >
 
                 <v-btn class="mr-4" type="submit">submit</v-btn>
@@ -69,7 +70,7 @@
 
   import {Vue} from 'vue-property-decorator'
   import Component from "vue-class-component";
-  import { fb } from '../firebase';
+  import { fb, db, fs } from '../firebase';
 import { storage } from 'firebase';
 
   @Component
@@ -82,7 +83,7 @@ import { storage } from 'firebase';
     userBirthday = '';
     userPassword ='';
     userPhoto = null;
-    imageUrl = '';
+    imageUrl: any;
 
     // data(){
     //     return {
@@ -105,19 +106,24 @@ import { storage } from 'firebase';
     }
 
 
-    createUser(e:any){
+    async createUser(e:any){
         e.preventDefault();
         console.log(this.getUser());
 
-        if (this.userPhoto != null){
-              const storageRef = fb.storage().ref('images/'+this.userPhoto.name);
-              const uploadTask = storageRef.put(this.userPhoto);
-              uploadTask.on('state_changed', function(snapshot){
 
-                console.log(snapshot);
-              }, function(error) {
+        if (this.userPhoto != null){
+              const storageRef = fb.storage().ref('images/productos/3/img-4');
+
+              const uploadTask = storageRef.put(this.userPhoto);
+
+              this.imageUrl = await uploadTask.on('state_changed', 
+              function(snapshot: any){
+                console.log(snapshot.ref.getDownloadURL())
+              }, 
+              function(error: any) {
                 // Handle unsuccessful uploads
-              }, function() {
+              }, 
+              function() {
                 // Handle successful uploads on complete
                 // For instance, get the download URL: https://firebasestorage.googleapis.com/...
                 uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
@@ -125,7 +131,7 @@ import { storage } from 'firebase';
                 });
               });
 
-            }
+        }
 
         this.$store.dispatch("users/create", this.getUser()).then((response:any) =>{
           

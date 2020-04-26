@@ -16,5 +16,6 @@ const config = {
 
 const fb = firebase.initializeApp(config);
 const db = firebase.firestore();
+const fs = firebase.storage();
 
-export {fb, db}
+export {fb, db, fs}
