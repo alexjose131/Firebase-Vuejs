@@ -61,6 +61,12 @@
 
                 <v-btn class="mr-4" type="submit">submit</v-btn>
             </form>
+
+            <v-btn @click="seeImg"> traer imagenes</v-btn>
+
+            <div v-for="img in imageUrl" :key = "img.id" >
+              <img v-bind:src="img" alt="">
+            </div>
         </v-col>
       </v-container>
   </v-content>
@@ -83,7 +89,7 @@ import { storage } from 'firebase';
     userBirthday = '';
     userPassword ='';
     userPhoto = null;
-    imageUrl: any;
+    imageUrl = [];
 
     // data(){
     //     return {
@@ -119,8 +125,6 @@ import { storage } from 'firebase';
               }, error =>{
                 console.log(error)
               }, ()=> {
-                // Handle successful uploads on complete
-                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
                 uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
                   this.imageUrl = downloadURL;
                   console.log('File available at', this.imageUrl);
@@ -137,6 +141,25 @@ import { storage } from 'firebase';
             localStorage.setItem("token", response.data.token)
         });*/
     }
+
+      seeImg(){
+        const storage = fs;
+        const storageRef = storage.ref();
+        
+          storageRef.child('/images/productos/1/').listAll().then(res => {
+            const i = 0;
+            res.items.forEach(itemRef => {
+              console.log(itemRef)
+
+              itemRef.getDownloadURL().then( downloadUrl => {
+                this.imageUrl.push(downloadUrl);
+                console.log(downloadUrl)
+              })
+            });
+          }).catch(error => {
+            console.log(error)
+          })
+        }
 
     getUser(){
         return {
