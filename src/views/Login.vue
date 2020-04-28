@@ -97,6 +97,6 @@ import { fa, providerGoogle, providerFacebook } from '../firebase';
       }).catch(error =>{
         console.log(error);
       })
-    }
+    };
   }
 </script>
