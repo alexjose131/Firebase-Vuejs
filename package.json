@@ -13,6 +13,7 @@
     "core-js": "^3.6.4",
     "firebase": "^7.14.2",
     "firebaseui": "^4.5.0",
+    "lob": "^6.1.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-google-signin-button-directive": "^1.0.3",

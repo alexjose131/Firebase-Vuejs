@@ -32,6 +32,56 @@
         </v-card>
       </v-col>
     </v-row>
+
+    
+    <v-row justify="center">
+      
+      <v-col justify="center" md="6">
+        <v-card-title>
+          <h2>Verificador de Direcciones LOB</h2>
+        </v-card-title>
+
+        <v-form
+          ref="form"
+          lazy-validation
+        >
+          <v-text-field
+            v-model="primary_line"
+            label="Primary Line"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="city"
+            label="city"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="state"
+            label="state"
+            required
+          ></v-text-field>
+
+          
+          <v-text-field
+            v-model="zip_code"
+            label="ZIP code"
+            required
+            type="number"
+          ></v-text-field>
+
+          <v-btn
+            color="success"
+            class="mr-4"
+            @submit="verifyAddress"
+          >
+            Validate
+          </v-btn>
+
+        </v-form>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -42,17 +92,26 @@ import Component from "vue-class-component";
 @Component({})
 export default class Home extends Vue {
   loading = false;
+  primary_line = "";
+  secondary_line = "";
+  city = "";
+  state = "";
+  zip_code = "" ;
 
   getBanks() {
     this.loading = true;
     this.$store.dispatch("banks/read").then(() => {
       this.loading = false;
     });
-  };
+  }
+
+  verifyAddress(){
+    console.log("a");
+  }
 
   get banks() {
     return this.$store.state.banks.banks;
-  };
+  }
 }
 </script>
 

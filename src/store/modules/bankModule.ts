@@ -1,6 +1,7 @@
 import Vue from "vue";
 
 import bankService from "../../services/bankService";
+import Lob from "../../../node_modules/lob"
 
 export default {
   namespaced: true,
@@ -32,6 +33,22 @@ export default {
         context.commit("setBanks", response.data.data);
       });
     },
+
+    /*verify: async (context: any, address: any) => {
+      await Lob.usVerifications.verify({
+        primary_line: address.primaryLine,
+        city: address.city,
+        state: address.state,
+        zip_code: address.zipCode,  
+      }, (err: any, res: any) => {
+        if (err){
+          console.log(err)
+        }else {
+          console.log(res)
+        }
+      })
+    },*/
+
     // update: (context, bankData) => {
     //   // stuff to update bank data to the backend : CRUD UPDATE ACTION
     // },
